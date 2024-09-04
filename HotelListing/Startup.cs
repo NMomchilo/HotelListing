@@ -3,9 +3,11 @@ using HotelListing.Configurations;
 using HotelListing.Data;
 using HotelListing.IReposiroty;
 using HotelListing.Reposiroty;
+using HotelListing.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,8 +40,15 @@ namespace HotelListing
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());    
             });
 
+
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(this.Configuration);
+
             services.AddAutoMapper(typeof(MapperInitilizer));
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddSwaggerGen(c =>
             {
@@ -65,6 +74,7 @@ namespace HotelListing
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
