@@ -36,7 +36,7 @@ namespace HotelListing.Reposiroty
             IQueryable<T> query = this.db;
             if (includes != null)
                 foreach (string includeProperty in includes)// for foreign keys 
-                    query.Include(includeProperty);
+                    query = query.Include(includeProperty);
 
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
@@ -49,7 +49,7 @@ namespace HotelListing.Reposiroty
 
             if (includes != null)
                 foreach (string includeProperty in includes)// for foreign keys 
-                    query.Include(includeProperty);
+                    query = query.Include(includeProperty);
 
             if (orderBy != null)
                 query = orderBy(query);
