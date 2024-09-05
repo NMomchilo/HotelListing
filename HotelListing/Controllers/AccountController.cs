@@ -43,7 +43,7 @@ namespace HotelListing.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try
+            try//including ErrorHandler we don't need try catch anymore
             {
                 ApiUser user = this.mapper.Map<ApiUser>(userDTO);
                 user.UserName = userDTO.Email;
